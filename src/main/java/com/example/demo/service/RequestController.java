@@ -55,6 +55,26 @@ public class RequestController {
         } else return "Ooops!.. Nothing found...";
     }
 
+    @PostMapping(path = "/update")
+    public @ResponseBody String update(@RequestParam String name,
+                                              @RequestParam String newName,
+                                              @RequestParam String email,
+                                              @RequestParam String ph_number,
+                                              @RequestParam String adress) {
+        Optional<Request> updateRequest = requestRepository.findByName(name);
+        if(updateRequest.isPresent()) {
+            Request req = updateRequest.get();
+            req.setName(newName);
+            req.setEmail(email);
+            req.setPh_number(ph_number);
+            req.setAdress(adress);
+            requestRepository.save(req);
+            return "Updated";
+        }
+        else return "Ooops!.. Nothing found...";
+    }
+
+
     @PostMapping(path = "/remove")
     public @ResponseBody String removeRequest(@RequestParam String name) {
 
